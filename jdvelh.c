@@ -50,7 +50,6 @@ temp=*userInput;
 
 
 int main(){
-
   int i;
   int userInput;
 
@@ -59,6 +58,7 @@ int main(){
 
   int jGold;
   jGold=10;
+do{
 
 printf("%dPV / %d Gold\n___________\n",jPV, jGold );
 printf("Chapitres disponibles :\n");
@@ -88,4 +88,5 @@ printf("\n%s atteint.\n%s \n %d gold %d PV\n\n",destination[userInput].name,dest
 printf("%dPV / %d Gold\n___________\n",jPV, jGold );
 deplacement(&userInput, &jPV, &jGold);
 
+}while(jPV>0);
 }
