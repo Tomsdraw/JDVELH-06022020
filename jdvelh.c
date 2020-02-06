@@ -9,36 +9,58 @@ struct Chapitre {
     int gold;
     int pv;
     int id[20];
- }; 
+ };
 
  typedef struct Chapitre chapitre;
 
- int i;
- int userInput;
- chapitre destination[TAILLE] = {{"Chapitre 0","Le chateau imperial",20,70,{1,2}},{"Chapitre 1","La taverne des orcs",70,20,{0,2}},{"Chapitre 2","Village envahi",45,40,{1,0}}};
+ chapitre destination[TAILLE] = {{"Chapitre 0","Le chateau imperial",+30,-20,{1,2}},{"Chapitre 1","La taverne des orcs",+10,-20,{0,2}},{"Chapitre 2","Village envahi",-20,-5,{0,1}}};
 
-int deplacement(){
+int deplacement(int* userInput, int *jPV, int* jGold){
 int temp;
-temp=userInput;
+int x;
+temp=*userInput;
 
-  for (i = 0; i < 2; i++){
-    printf("%d- Chapitre %d\n",i, destination[userInput].id[i]);
+  for (x = 0; x < 2; x++){
+    printf("%d- Chapitre %d\n",x, destination[*userInput].id[x]);
   }
   printf("Entrez le numero du chapitre que vous souhaitez rejoindre\n");
-  scanf("%d",&userInput);
+  scanf("%d",userInput);
 
-    while (-0.1> userInput || userInput>1){
+    while (-0.1> *userInput || *userInput>1){
       printf("Ce choix n'est pas valide\n" );
-      scanf("%d",&userInput );
+      scanf("%d",userInput );
     }
 
-  userInput=destination[temp].id[userInput];
+  *userInput=destination[temp].id[*userInput];
 
-  printf("\nLa destination %s est atteinte.\n%s \n +%d gold +%d PV\n",destination[userInput].name,destination[userInput].description,destination[userInput].gold,destination[userInput].pv );
+  *jPV+=destination[*userInput].pv;
+  *jGold+=destination[*userInput].gold;
+
+  if(*jPV>=100){
+    *jPV=100;
+  }
+
+  if(*jGold<=0){
+    *jGold=0;
+  }
+
+  printf("\nLa destination %s est atteinte.\n%s \n %d gold %d PV\n",destination[*userInput].name,destination[*userInput].description,destination[*userInput].gold,destination[*userInput].pv );
+  printf("%dPV / %d Gold\n___________\n",*jPV, *jGold );
   }
 
 
 int main(){
+
+  int i;
+  int userInput;
+
+  int jPV;
+  jPV=100;
+
+  int jGold;
+  jGold=10;
+
+printf("%dPV / %d Gold\n___________\n",jPV, jGold );
 printf("Chapitres disponibles :\n");
 for (i = 0; i < 3; i++){
     printf("%d- %s\n", i,destination[i].name);
@@ -51,9 +73,19 @@ while( -0.1> userInput || userInput>2 ){
   scanf("%d",&userInput );
 }
 
+jPV+=destination[userInput].pv;
+jGold+=destination[userInput].gold;
 
-printf("\n%s atteint.\n%s \n +%d gold +%d PV\n\n",destination[userInput].name,destination[userInput].description,destination[userInput].gold,destination[userInput].pv );
+if(jPV>=100){
+  jPV=100;
+}
 
-deplacement();
+if(jGold<=0){
+  jGold=0;
+}
+
+printf("\n%s atteint.\n%s \n %d gold %d PV\n\n",destination[userInput].name,destination[userInput].description,destination[userInput].gold,destination[userInput].pv );
+printf("%dPV / %d Gold\n___________\n",jPV, jGold );
+deplacement(&userInput, &jPV, &jGold);
 
 }
